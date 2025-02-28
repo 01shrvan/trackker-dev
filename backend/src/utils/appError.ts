@@ -1,18 +1,41 @@
 import { HTTPSTATUS, HttpStatusCodeType } from "../config/http.config";
-import { ErrorCodeEnumType } from "../enums/error-code.enum";
+import { ErrorCodeEnum, ErrorCodeEnumType } from "../enums/error-code.enum";
 
 export class AppError extends Error {
   public statusCode: HttpStatusCodeType | undefined;
   public errorCode?: ErrorCodeEnumType;
 
   constructor(
-    message: string, 
+    message: string,
     statusCode = HTTPSTATUS.INTERNAL_SERVER_ERROR,
-    errorCode?:ErrorCodeEnumType
-){
+    errorCode?: ErrorCodeEnumType
+  ) {
     super(message);
     this.statusCode = statusCode;
     this.errorCode = errorCode;
     Error.captureStackTrace(this, this.constructor);
+  }
 }
+
+export class HttpException extends AppError {
+  constructor(
+    message = "Http Exception Error",
+    statusCode: HttpStatusCodeType,
+    errorCode?: ErrorCodeEnumType
+  ) {
+    super(message, statusCode, errorCode);
+  }
+}
+
+export class InternalServerException extends AppError {
+  constructor(
+    message = "Internal Server Error",
+    errorCode?: ErrorCodeEnumType
+  ) {
+    super(
+      message,
+      HTTPSTATUS.INTERNAL_SERVER_ERROR,
+      errorCode || ErrorCodeEnum.INTERNAL_SERVER_ERROR
+    );
+  }
 }
