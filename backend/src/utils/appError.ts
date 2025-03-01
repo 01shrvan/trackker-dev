@@ -39,3 +39,33 @@ export class InternalServerException extends AppError {
     );
   }
 }
+
+export class NotFoundException extends AppError {
+  constructor(message = "Resource not found", errorCode?: ErrorCodeEnumType) {
+    super(
+      message,
+      HTTPSTATUS.NOT_FOUND,
+      errorCode || ErrorCodeEnum.RESOURCE_NOT_FOUND
+    );
+  }
+}
+
+export class BadRequestException extends AppError {
+  constructor(message = "Bad Request", errorCode?: ErrorCodeEnumType) {
+    super(
+      message,
+      HTTPSTATUS.BAD_REQUEST,
+      errorCode || ErrorCodeEnum.VALIDATION_ERROR
+    );
+  }
+}
+
+export class UnauthorizedException extends AppError {
+  constructor(message = "Unauthorized Access", errorCode?: ErrorCodeEnumType) {
+    super(
+      message,
+      HTTPSTATUS.UNAUTHORIZED,
+      errorCode || ErrorCodeEnum.ACCESS_UNAUTHORIZED
+    );
+  }
+}

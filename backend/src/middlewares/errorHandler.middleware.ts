@@ -1,5 +1,6 @@
 import { ErrorRequestHandler } from "express";
 import { HTTPSTATUS } from "../config/http.config";
+import { AppError } from "../utils/appError";
 
 export const errorHandler: ErrorRequestHandler = (
   error,
@@ -13,6 +14,14 @@ export const errorHandler: ErrorRequestHandler = (
       message: "Invalid JSON format. Please check request body",
     });
   }
+
+  if (error instanceof AppError) {
+    return res.status(error.statusCode || HTTPSTATUS.INTERNAL_SERVER_ERROR).json({
+      message: error.message,
+      errorCode: error.errorCode,
+    }); 
+  }
+
   return res.status(HTTPSTATUS.INTERNAL_SERVER_ERROR).json({
     message: "Internal server error",
     error: error?.message || "Unknown error occured",

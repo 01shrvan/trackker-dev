@@ -7,6 +7,8 @@ import connectDatabase from "./config/database.config";
 import { errorHandler } from "./middlewares/errorHandler.middleware";
 import { HTTPSTATUS } from "./config/http.config";
 import { asyncHandler } from "./middlewares/asyncHandler.middleware";
+import { BadRequestException } from "./utils/appError";
+import { ErrorCodeEnum } from "./enums/error-code.enum";
 
 const app = express();
 const BASE_PATH = config.BASE_PATH;
@@ -36,6 +38,10 @@ app.use(
 app.get(
   "/",
   asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    throw new BadRequestException(
+      "Bad Request",
+      ErrorCodeEnum.AUTH_INVALID_TOKEN
+    );
     res.status(HTTPSTATUS.OK).json({
       message: "hello nigga",
     });
