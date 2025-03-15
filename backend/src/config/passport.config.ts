@@ -9,7 +9,7 @@ import { ProviderEnum } from "../enums/account-provider.enum";
 import {
   loginOrCreateAccountService,
   verifyUserService,
-} from "../services/auth.service";
+} from "../services/auth.services";
 
 passport.use(
   new GoogleStrategy(
